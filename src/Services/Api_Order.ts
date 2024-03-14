@@ -5,7 +5,9 @@ const orderApi = createApi({
   reducerPath: "order",
   tagTypes: ["Order"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080",
+    baseUrl : "http://localhost:8080",
+
+    // baseUrl: "https://datn-be-sneaker.onrender.com",
     prepareHeaders: (headers) => {
       headers.set("Content-Type", "application/json");
       const token = localStorage.getItem("token") || "";

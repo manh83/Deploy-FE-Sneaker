@@ -136,13 +136,8 @@ const BillDetailHome = () => {
                                                 <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{product?.productId?._id}</td>
                                                 <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{product?.productId?.name}</td>
                                                 <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center',display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                                    {product?.productId?.imgUrl && (
-                                                        <img
-                                                            src={product?.productId?.imgUrl?.[0]}
-                                                            alt={product?.productId?.name}
-                                                            style={{ width: '100px', height: '100px' }}
-                                                        />
-                                                    )}
+                                                    
+                                     <img src={product?.imgUrl[0]} style={{ width: '100px', height: '100px' }}/>
                                                 </td>
                                                 <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
                                                     <div

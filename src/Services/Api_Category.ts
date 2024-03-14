@@ -6,7 +6,7 @@ const categoryApi = createApi({
     reducerPath: "category",
     tagTypes: ["Category"],
     baseQuery: fetchBaseQuery({
-        baseUrl: `http://localhost:8080`,
+        baseUrl: `https://datn-be-sneaker.onrender.com`,
         fetchFn: async (...args) => (
             await pause(1000),
             fetch(...args)

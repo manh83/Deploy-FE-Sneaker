@@ -4,7 +4,7 @@ import { IDiscount } from "../Models/interfaces"
 const discountApi = createApi({
   reducerPath: "discountApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080",
+    baseUrl: "https://datn-be-sneaker.onrender.com",
   }),
   tagTypes: ["Discount"],
   endpoints: (builder) => ({

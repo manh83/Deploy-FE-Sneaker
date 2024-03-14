@@ -6,14 +6,7 @@ const slideApi = createApi({
   reducerPath: "slide",
   tagTypes: ["Slide"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080",
-    prepareHeaders(headers, api) {
-      const token = localStorage.getItem("token")
-      if (token) {
-        headers.set("authorization", token)
-      }
-      return headers
-    },
+    baseUrl: "https://datn-be-sneaker.onrender.com"
   }),
   endpoints: (builder) => ({
     getAllSlide: builder.query<ISlider[], void>({

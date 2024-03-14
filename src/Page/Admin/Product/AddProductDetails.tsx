@@ -14,8 +14,7 @@ import axios from "axios"
 import { IProduct, IColor } from "../../../Models/interfaces"
 import type { UploadFile } from "antd/es/upload/interface"
 import type { RcFile, UploadProps } from "antd/es/upload"
-import { useAddProductDetailsMutation, useAddProductMutation } from "../../../Services/Api_Product"
-import { useGetAllCategoryQuery } from "../../../Services/Api_Category"
+import { useAddProductDetailsMutation } from "../../../Services/Api_Product"
 import Loading from "../../../Component/Loading"
 import { useNavigate, useParams } from "react-router-dom"
 import { useGetAllSizeQuery } from "../../../Services/Api_Size"
@@ -303,7 +302,7 @@ const AddProductDetails = () => {
       })
 
       const response = await axios.post(
-        "http://localhost:8080/api/images/upload",
+        "https://datn-be-sneaker.onrender.com/api/images/upload",
         formData
       )
 

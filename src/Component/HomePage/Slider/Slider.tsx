@@ -14,6 +14,9 @@ const Slider = () => {
         }
     }, [getAllSlide]);
 
+    console.log('getSlide',getSlide);
+    
+
     return (
         <div>
             <div className="slider-area mt-56">

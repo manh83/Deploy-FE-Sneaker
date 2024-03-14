@@ -98,8 +98,11 @@ const Product = () => {
                             >
                               <Link to={`/product/${product._id}`}>
                                 <div className="single-product">
-                                  <div className="level-pro-new">
-                                    <span>new</span>
+                                  <div className="level-pro-hot">
+                                    <img
+                                      style={{ width: 100 }}
+                                      src="https://res.cloudinary.com/dtgfqi0ek/image/upload/v1708582778/giay-sneaker/towrsvxcqeqzu7stngwy.png"
+                                    />
                                   </div>
                                   <div className="product-img">
                                     <div>

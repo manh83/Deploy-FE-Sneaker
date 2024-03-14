@@ -66,31 +66,31 @@ const AddProduct = () => {
 
   const handleCancel = () => setPreviewOpen(false)
 
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile)
-    }
+  // const handlePreview = async (file: UploadFile) => {
+  //   if (!file.url && !file.preview) {
+  //     file.preview = await getBase64(file.originFileObj as RcFile)
+  //   }
 
-    setPreviewImage(file.url || (file.preview as string))
-    setPreviewOpen(true)
-    setPreviewTitle(
-      file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1)
-    )
-  }
+  //   setPreviewImage(file.url || (file.preview as string))
+  //   setPreviewOpen(true)
+  //   setPreviewTitle(
+  //     file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1)
+  //   )
+  // }
 
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
-    setFileList(newFileList)
+  // const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
+  //   setFileList(newFileList)
 
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  )
+  // const uploadButton = (
+  //   <div>
+  //     <PlusOutlined />
+  //     <div style={{ marginTop: 8 }}>Upload</div>
+  //   </div>
+  // )
 
-  const beforeUpload = (file: RcFile): boolean => {
-    return false
-  }
+  // const beforeUpload = (file: RcFile): boolean => {
+  //   return false
+  // }
 
   useEffect(() => {
     if (error && "data" in error) {
@@ -106,25 +106,25 @@ const AddProduct = () => {
     try {
       // mở loading
       setIsLoadingScreen(true)
-      const formData = new FormData()
-      fileList.forEach((file) => {
-        if (file.originFileObj) {
-          formData.append("images", file.originFileObj)
-        }
-      })
+      // const formData = new FormData()
+      // fileList.forEach((file) => {
+      //   if (file.originFileObj) {
+      //     formData.append("images", file.originFileObj)
+      //   }
+      // })
 
-      const response = await axios.post(
-        "https://datn-be-sneaker.onrender.com/api/images/upload",
-        formData
-      )
+      // const response = await axios.post(
+      //   "https://datn-be-sneaker.onrender.com/api/images/upload",
+      //   formData
+      // )
 
       // Assuming response.data contains the uploaded image URLs
-      const imageUrls = response.data.urls.map((urls: urlObject) => urls.url)
+      // const imageUrls = response.data.urls.map((urls: urlObject) => urls.url)
 
-      if (response.status === 200) {
+
         const newProduct: any = {
           name: values.name,
-          imgUrl: imageUrls,
+          // imgUrl: imageUrls,
           categoryId: values.categoryId,
           description: values.description,
         }
@@ -141,7 +141,7 @@ const AddProduct = () => {
         setTimeout(() => {
           navigate("/admin/product/list")
         }, 1500)
-      }
+
     } catch (error) {
       console.error("Error uploading images:", error)
       setIsLoadingScreen(false)
@@ -199,7 +199,7 @@ const AddProduct = () => {
 
         </Form.Item>
 
-        <Form.Item label="Tải lên" className="mt-5">
+        {/* <Form.Item label="Tải lên" className="mt-5">
           <Upload
             listType="picture-card"
             name="images"
@@ -211,7 +211,7 @@ const AddProduct = () => {
           >
             {fileList.length >= 8 ? null : uploadButton}
           </Upload>
-        </Form.Item>
+        </Form.Item> */}
 
         <Modal
           open={previewOpen}

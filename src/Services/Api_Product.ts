@@ -6,8 +6,8 @@ const productApi = createApi({
   reducerPath: "products",
   tagTypes: ["Product"],
   baseQuery: fetchBaseQuery({
-    // baseUrl: `https://server-node-api-bd6916c462f7.herokuapp.com`,
-    baseUrl: "http://localhost:8080",
+    baseUrl : "http://localhost:8080",
+    // baseUrl: "https://datn-be-sneaker.onrender.com",
     fetchFn: async (...args) => (
       await pause(1000),
       fetch(...args)

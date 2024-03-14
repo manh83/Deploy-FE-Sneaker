@@ -62,7 +62,8 @@ export interface ProductItem {
   quantity: number;
   color: string,
   size: string,
-  price: number,
+  price?: number,
+  importPrice?: number 
   totalAmount?: number
 }
 

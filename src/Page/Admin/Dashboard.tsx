@@ -19,8 +19,9 @@ interface HighchartsChartProps {
 
 const Dashboard = () => {
   const [totalQuantitySold, setTotalQuantitySold] = useState(0);
-  const [totalRevenue, setTotalRevenue] = useState(0);
-  const [statisticsByDay, {isLoading}] = useStatisticsByDayMutation();
+  const [totalSales, setTotalSales] = useState(0); // tính tổng doanh số
+  const [totalRevenue, setTotalRevenue] = useState(0); // tính tổng doanh thu
+  const [statisticsByDay, { isLoading }] = useStatisticsByDayMutation();
   const [tableData, setTableData] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -132,17 +133,20 @@ const Dashboard = () => {
   };
 
   const handleResponse = (response: any) => {
-    if (response.data && response.data.success) {
+    console.log(response);
+
+    if (response.data) {
       const { orders } = response.data.statistics;
 
-      const dailyTotalRevenue: { [key: string]: number } = {};
+      setTableData(orders);
 
+      const dailyTotalSales: { [key: string]: number } = {}; // tổng doanh số
+      const dailyTotalRevenue: { [key: string]: number } = {};
       const dailyTotalOrders: { [key: string]: number } = {};
       let totalCanceledOrders = 0;
       let totalQuantitySold = 0;
 
       const selectedDates = getSelectedDates(startDate, endDate);
-      setTableData(orders);
 
       // Lặp qua các ngày đã chọn
       selectedDates.forEach((selectedDate) => {
@@ -158,25 +162,51 @@ const Dashboard = () => {
           (order: any) => order.status === "4"
         );
 
-        // Calculate the total quantity for the day from valid orders
+        // Tính tổng số lượng sản phẩm trong ngày từ các đơn hàng hợp lệ
         totalQuantitySold += validOrders.length;
 
-        // Accumulate total canceled orders
+        // Tích lũy tổng số đơn hàng bị hủy
         totalCanceledOrders += matchingOrders.filter(
           (order: any) => order.status === "2"
         ).length;
 
         if (validOrders.length > 0) {
           // If there are valid orders, calculate total revenue and total orders
-          dailyTotalRevenue[orderDate] = validOrders.reduce(
+          let dailyTotalImportPrice = 0; // Tổng giá nhập hàng hàng ngày
+          let totalRevenue = 0;
+
+          // Tính tổng giá tiền của tất cả các đơn hàng
+          totalRevenue += validOrders.reduce(
             (acc: number, order: any) => acc + order.totalPrice,
             0
           );
+          console.log(totalRevenue);
+
+          // lặp tính tổng giá nhập hàng của từng đơn hàng
+          validOrders.forEach((order: any) => {
+            dailyTotalImportPrice += order.products.reduce(
+              (acc: number, product: any) =>
+                acc + product.importPrice * product.quantity,
+              0
+            );
+          });
+
+          
+          // tính tổng doanh số 
+          dailyTotalSales[orderDate] = validOrders.reduce(
+            (acc: number, order: any) => acc + order.totalPrice,
+            0
+          );
+
+          // tính tổng doanh thu = tổng daonh số của đơn - (tổng giá nhập của 1 sản phẩm * số lượng ) - 30k tiền ship của 1 đơn
+          dailyTotalRevenue[orderDate] = totalRevenue - dailyTotalImportPrice - (30000 * orders.length)
+
+
           dailyTotalOrders[orderDate] = validOrders.length;
         } else {
           // If no valid orders, set values to 0
           dailyTotalOrders[orderDate] = 0;
-          dailyTotalRevenue[orderDate] = 0;
+          dailyTotalSales[orderDate] = 0;
         }
       });
 
@@ -185,37 +215,41 @@ const Dashboard = () => {
 
       setTotalQuantitySold(totalQuantitySold);
 
-      const categories: string[] = Object.keys(dailyTotalRevenue);
+      const categories: string[] = Object.keys(dailyTotalSales);
       const series = [
         {
           name: "Doanh số",
-          data: Object.values(dailyTotalRevenue),
+          data: Object.values(dailyTotalSales),
           colorByPoint: true,
         },
       ];
 
-      const totalRevenueForAllDays = Object.values(dailyTotalRevenue).reduce(
-        (acc, revenue) => acc + revenue,
+      const totalSalesForAllDays = Object.values(dailyTotalSales).reduce(
+        (acc, price) => acc + price,
         0
       );
 
       setChartData({ categories, series });
-      setTotalRevenue(totalRevenueForAllDays);
+      setTotalSales(totalSalesForAllDays);
+
       // setTotalItems(orders.length);
-      const aggregatedTableData = Object.keys(dailyTotalRevenue).map(
+      const aggregatedTableData = Object.keys(dailyTotalSales).map(
         (orderDate) => ({
           time: orderDate,
           numberOrders: dailyTotalOrders[orderDate],
-          totalRevenue: dailyTotalRevenue[orderDate].toLocaleString("vi-VN", {
+          totalSales: dailyTotalSales[orderDate].toLocaleString("vi-VN", {
             style: "currency",
             currency: "VND",
           }),
+          totalRevenue: formatCurrency(dailyTotalRevenue[orderDate] || 0),
         })
       );
 
+      console.log(aggregatedTableData);
+
       setTableData(aggregatedTableData);
     } else {
-      console.error("Không bán được đơn này trong ngày");
+      message.error("Đã có lỗi sảy ra vui lòng thử lại sau");
     }
   };
 
@@ -233,6 +267,14 @@ const Dashboard = () => {
     return selectedDates;
   };
 
+  const formatCurrency = (amount: number) => {
+    const formatter = new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    });
+    return formatter.format(amount);
+  };
+
   const columns = [
     {
       title: "Ngày",
@@ -248,6 +290,12 @@ const Dashboard = () => {
     },
     {
       title: "Doanh số",
+      dataIndex: "totalSales",
+      key: "totalSales",
+      align: "center",
+    },
+    {
+      title: "Doanh thu",
       dataIndex: "totalRevenue",
       key: "totalRevenue",
       align: "center",
@@ -285,7 +333,7 @@ const Dashboard = () => {
           <div className="flex items-center justify-center ml-3">
             <div>
               <span style={{ fontSize: 15, color: "green", fontWeight: 450 }}>
-                {totalRevenue.toLocaleString("vi-VN", {
+                {totalSales.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
@@ -330,10 +378,14 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      {isLoading ? <LoadingAdmin /> : <div>
+      {isLoading ? (
+        <LoadingAdmin />
+      ) : (
+        <div>
           <HighchartsChart chartData={chartData} />
           <Table columns={columns} dataSource={tableData} />
-        </div> }
+        </div>
+      )}
     </div>
   );
 };

@@ -6,7 +6,7 @@ const blogApi = createApi({
     reducerPath: "blogs",
     tagTypes: ["Blogs"],
     baseQuery: fetchBaseQuery({
-        baseUrl: `http://localhost:8080`,
+        baseUrl: `https://datn-be-sneaker.onrender.com`,
         fetchFn: async (...args) => (
             await pause(1000),
             fetch(...args)

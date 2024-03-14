@@ -553,6 +553,21 @@ const vietnamData = [
       ]
     },
     {
+      label: 'Vĩnh Phúc',
+      value: 'vinhphuc',
+      districts: [
+        { value: 'vp1', label: 'Thành phố Vĩnh Yên' },
+        { value: 'vp2', label: 'Thành phố Phúc Yên' },
+        { value: 'vp3', label: 'Huyện Tam Dương' },
+        { value: 'vp4', label: 'Huyện Tam Đảo' },
+        { value: 'vp5', label: 'Huyện Yên Lạc' },
+        { value: 'vp6', label: 'Huyện Vĩnh Tường' },
+        { value: 'vp7', label: 'Huyện Lập Thạch' },
+        { value: 'vp8', label: 'Huyện Sông Lô' },
+        { value: 'vp9', label: 'Huyện Bình Xuyên' }
+      ]
+    },
+    {
       label: 'Vũng Tàu',
       value: 'vungtau',
       districts: [

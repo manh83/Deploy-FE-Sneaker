@@ -377,7 +377,7 @@ const Checkout = () => {
     handleInputBlur("district", selectedOption)
   }
 
-  // console.log('selectedProducts',selectedProducts);
+  console.log('selectedProducts',selectedProducts);
   
   // Sử lý tạo đơn hàng
   const handlePlaceOrder = async () => {
@@ -407,6 +407,7 @@ const Checkout = () => {
             name:selectedProducts[index].name,
             quantity: quantity[index],
             price: selectedProducts[index].price,
+            importPrice: selectedProducts[index].importPrice,
             color: selectedProducts[index].color,
             size: selectedProducts[index].size,
             imgUrl: selectedProducts[index].imgUrl
@@ -491,10 +492,11 @@ const Checkout = () => {
             name:selectedProducts[index].name,
             price: selectedProducts[index].price,
             color: selectedProducts[index].color,
+            importPrice: selectedProducts[index].importPrice,
             size: selectedProducts[index].size,
             imgUrl: selectedProducts[index].imgUrl
           })),
-          discountCodeId: enteredDiscount._id,
+          discountCodeId: enteredDiscount?._id,
           name:
             (document.getElementById("name") as HTMLInputElement)?.value || "",
           phone:

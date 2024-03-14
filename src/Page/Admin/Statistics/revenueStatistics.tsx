@@ -16,7 +16,7 @@ interface HighchartsChartProps {
 const RevenueStatistics = () => {
   const searchButtonRef = useRef<HTMLButtonElement | null>(null); //setup để khi vào trang sẽ tự động submit 1 lần
   const [totalQuantitySold, setTotalQuantitySold] = useState(0);
-  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalSales, setTotalSales] = useState(0);  // set tổng doanh số
   const [statisticsByDay, {isLoading}] = useStatisticsByDayMutation();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -136,7 +136,7 @@ const handleResponse = (response: any) => {
   if (response.data && response.data.success) {
     const { totalQuantity, orders } = response.data.statistics;
   
-    const dailyTotalRevenue: { [key: string]: number } = {};
+    const dailyTotalSales: { [key: string]: number } = {}; // tổng doanh số
     const matchingOrders: any[] = []; // Tạo một mảng mới để lưu trữ các đơn hàng đã nhận hàng
 
     const selectedDates = getSelectedDates(startDate, endDate);
@@ -154,18 +154,18 @@ const handleResponse = (response: any) => {
       matchingOrders.push(...matchingOrdersForDate); // Thêm các đơn hàng đã nhận hàng vào mảng matchingOrders
   
       // Tính tổng doanh số của các đơn hàng đã nhận hàng
-      const totalRevenueReceived = matchingOrdersForDate.reduce((total:number, order) => total + order.totalPrice, 0);
+      const totalSalesReceived = matchingOrdersForDate.reduce((total:number, order) => total + order.totalPrice, 0);
   
-      // Gán giá trị vào dailyTotalRevenue
-      dailyTotalRevenue[orderDate] = totalRevenueReceived;
+      // Gán giá trị vào dailyTotalSales
+      dailyTotalSales[orderDate] = totalSalesReceived;
     });
   
-    const categories: string[] = Object.keys(dailyTotalRevenue);
-    const series = [{ name: 'Doanh số', data: Object.values(dailyTotalRevenue),colorByPoint: true }];
+    const categories: string[] = Object.keys(dailyTotalSales);
+    const series = [{ name: 'Doanh số', data: Object.values(dailyTotalSales),colorByPoint: true }];
   
     setChartData({ categories, series });
     setTotalQuantitySold(matchingOrders.length);
-    setTotalRevenue(matchingOrders.reduce((total, order) => total + order.totalPrice, 0)); // Tính tổng doanh số từ các đơn hàng đã nhận hàng
+    setTotalSales(matchingOrders.reduce((total, order) => total + order.totalPrice, 0)); // Tính tổng doanh số từ các đơn hàng đã nhận hàng
   } else {
     console.error('Không bán được đơn này trong ngày');
   }
@@ -207,7 +207,7 @@ const handleResponse = (response: any) => {
           </div>
           <div className='ml-9 mt-2'>
             <div style={{ fontSize: 25, color: 'black', fontWeight: 600 }}>
-              Tổng doanh số: <samp className='text-red-600'> {totalRevenue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</samp>
+              Tổng doanh số: <samp className='text-red-600'> {totalSales.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</samp>
             </div>
           </div>
         </div>}

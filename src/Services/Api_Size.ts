@@ -6,7 +6,9 @@ const sizeApi = createApi({
   reducerPath: "size",
   tagTypes: ["Size"],
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://localhost:8080`,
+    // baseUrl: `https://datn-be-sneaker.onrender.com`,
+    baseUrl : "http://localhost:8080",
+
     fetchFn: async (...args) => (
       await pause(1000),
       fetch(...args)

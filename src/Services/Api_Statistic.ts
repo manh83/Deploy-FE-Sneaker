@@ -4,7 +4,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const statisticApi = createApi({
     reducerPath: "statistic",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:8080",
+    baseUrl : "http://localhost:8080",
+
+        // baseUrl: "https://datn-be-sneaker.onrender.com",
     }),
     endpoints: (builder) => ({
 

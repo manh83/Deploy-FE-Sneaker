@@ -5,7 +5,7 @@ const vnpApi = createApi({
   reducerPath: "VNP",
   tagTypes: ["VNP"],
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://localhost:8080`,
+    baseUrl: `https://datn-be-sneaker.onrender.com`,
     headers: {
       
     },
