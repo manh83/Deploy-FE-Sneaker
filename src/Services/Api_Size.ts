@@ -20,7 +20,7 @@ const sizeApi = createApi({
       providesTags: ["Size"]
     }),
 
-    getOneSize: builder.query<ISize, number | string>({
+    getOneSize: builder.query<any, number | string>({
       query: (id) => `/api/size/${id}`,
       providesTags: ["Size"]
     }),

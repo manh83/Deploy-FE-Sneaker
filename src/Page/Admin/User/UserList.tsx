@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link } from "react-router-dom";
 import { useGetAllUserQuery } from "../../../Services/Api_User";
 import { Divider, Table, Popconfirm, message, Select, Button, Input, Image } from 'antd';
-import { DeleteFilled, EditOutlined, RetweetOutlined } from '@ant-design/icons';
+import { DeleteFilled, EditOutlined } from '@ant-design/icons';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import Loading from "../../../Component/Loading";
 import { useRemoveUserMutation } from '../../../Services/Api_User';
@@ -13,11 +13,12 @@ const UserList = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const [getList, setList]: any = useState("");
     const [findName, setFindName] = useState([]);
-    const [findEmail, setFindEmail] = useState([]);
     const { data, isLoading }: any = useGetAllUserQuery();
 
     const [removeUser] = useRemoveUserMutation();
-    const {_id}:any=localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):null;
+    const userString = localStorage.getItem("user");
+    const _id: any = userString ? JSON.parse(userString) : null;
+
     
     let dataUser = data?.data?.map(({ _id, username, password, email, role, imgUrl,phone,address }: any) => ({
         _id,

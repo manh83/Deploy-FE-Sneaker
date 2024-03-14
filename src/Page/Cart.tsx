@@ -7,7 +7,6 @@ import {
   useUpdateIncreaseMutation,
   useUpdateMinusMutation,
 } from "../Services/Api_cart";
-import { ProductItem } from "../Models/interfaces";
 import { Input } from "antd";
 import Loading from "../Component/Loading";
 import "../App.scss";
@@ -18,7 +17,6 @@ const Cart = () => {
   const {
     data: cartData,
     isLoading,
-    error,
   } = token ? useGetCartQuery() : { data: null, isLoading: false, error: null };
   const [messageApi, contextHolder] = message.useMessage();
   const [deleteCart] = useDeleteFromCartMutation();
@@ -231,7 +229,7 @@ const Cart = () => {
           content: "Xóa sản phẩm khỏi giỏ hàng thành công",
         });
       })
-      .catch((error) => {
+      .catch((_error) => {
         messageApi.error("Đã xảy ra lỗi khi xóa sản phẩm");
       });
   };

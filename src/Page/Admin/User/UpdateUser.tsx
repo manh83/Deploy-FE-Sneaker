@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Empty, Form, Input, Select, message } from 'antd';
+import { useState } from 'react';
+import { Button, Form, Input, Select, message } from 'antd';
 import { useUpdateUserMutation, useGetOneUserQuery } from '../../../Services/Api_User';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { QuestionCircleOutlined } from "@ant-design/icons"
 import Loading from '../../../Component/Loading';
 
 
@@ -11,7 +10,7 @@ const UpdateUser = () => {
   const navigate = useNavigate();
   const [getList, setList]: any = useState("");
   const [messageApi, contextHolder] = message.useMessage();
-  const { data, isLoading, error }: any = useGetOneUserQuery(id);
+  const { data, isLoading }: any = useGetOneUserQuery(id);
   const [updateUser] = useUpdateUserMutation();
 
 

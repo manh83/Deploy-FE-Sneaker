@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import parse from 'html-react-parser';
+
+// import parse from 'html-react-parser';
 import { useLocation ,useNavigate } from 'react-router-dom';
 import { useAddOrderMutation } from "../Services/Api_Order"
 
 const CheckOutSuccess = () => {
     const location = useLocation();    
     const navigate=useNavigate();
-    const [addOrder, { error }] = useAddOrderMutation();
+    const [addOrder] = useAddOrderMutation();
     const [statusOrder, setStatusOrder] = useState(true);
     const [localCart, setLocalCart] = useState<any[]>(
         JSON.parse(localStorage.getItem("cart") || "[]")

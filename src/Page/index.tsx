@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Slider from '../Component/HomePage/Slider/Slider'
 import Banner from '../Component/HomePage/Banner/Banner'
 import Product from '../Component/HomePage/Products/Product'

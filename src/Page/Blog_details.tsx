@@ -135,7 +135,7 @@ const Blog_details = () => {
                                                                         </div>
                                                                         <div className="col-md-12 text-area">
                                                                             <label> comment </label>
-                                                                            <textarea cols="30" rows="10"></textarea>
+                                                                            <textarea cols={30} rows={10}></textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div className="row">

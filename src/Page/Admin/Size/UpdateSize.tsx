@@ -1,6 +1,5 @@
 
 import { Form, Button, Input, message } from "antd";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetOneSizeQuery, useUpdateSizeMutation } from "../../../Services/Api_Size";
 import { ISize } from "../../../Models/interfaces";

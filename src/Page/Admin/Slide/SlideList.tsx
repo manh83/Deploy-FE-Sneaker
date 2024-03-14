@@ -1,11 +1,10 @@
-import React from 'react'
-import { Divider, Table, Popconfirm, message, Button, Input, Image } from 'antd';
-import { DeleteFilled, EditOutlined, CheckOutlined, CloseOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+
+import { Divider, Table, Popconfirm, message, Button, Image } from 'antd';
+import { DeleteFilled, CheckOutlined, CloseOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import Loading from "../../../Component/Loading";
-import { useGetAllSlideQuery, useGetOneSlideQuery } from '../../../Services/Api_Slide';
-import { ISlider } from '../../../Models/interfaces';
+import { useGetAllSlideQuery } from '../../../Services/Api_Slide';
 import {
     useRemoveSlideMutation,
     useUpdatePatchSlideMutation,

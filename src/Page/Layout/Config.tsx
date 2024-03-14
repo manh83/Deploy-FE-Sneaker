@@ -1,11 +1,16 @@
 import $ from "jquery";
+import 'jquery.nivo.slider.js';
+
+interface JQuery {
+    nivoSlider(options?: any): JQuery;
+}
 
 export default function Run() {
     $(document).ready(function () {
         
         (function ($) {
             "use strict";
-            $('#nivoslider').nivoSlider({
+            ($('#nivoslider') as any).nivoSlider({
                 effect: 'random',
                 slices: 15,
                 boxCols: 8,
@@ -28,7 +33,7 @@ export default function Run() {
             /*----------------------------
              jQuery MeanMenu
             ------------------------------ */
-            $('.mobile-menu nav').meanmenu({
+            ($('.mobile-menu nav')as any).meanmenu({
                 meanScreenWidth: "991",
                 meanMenuContainer: ".mobile-menu"
             });
@@ -36,7 +41,7 @@ export default function Run() {
             /*----------------------------
              wow js
             ------------------------------ */
-            new WOW().init();
+            // new WOW().init();
 
             /*----------------------------
              product-slider
@@ -56,7 +61,7 @@ export default function Run() {
             /*----------------------------
              feature-product-slider
             ------------------------------ */
-            $(".feature-product-slider").owlCarousel({
+            ($(".feature-product-slider")as any).owlCarousel({
                 autoPlay: false,
                 slideSpeed: 2000,
                 pagination: false,
@@ -72,7 +77,7 @@ export default function Run() {
             /*----------------------------
              new-product-slider
             ------------------------------ */
-            $(".new-product-slider").owlCarousel({
+            ($(".new-product-slider")as any).owlCarousel({
                 autoPlay: false,
                 slideSpeed: 2000,
                 pagination: false,
@@ -87,7 +92,7 @@ export default function Run() {
             /*----------------------------
              testimonial-slider
             ------------------------------ */
-            $(".testimonial-slider").owlCarousel({
+            ($(".testimonial-slider")as any).owlCarousel({
                 autoPlay: false,
                 slideSpeed: 2000,
                 pagination: true,
@@ -102,7 +107,7 @@ export default function Run() {
             /*----------------------------
              sell-slider
             ------------------------------ */
-            $(".sell-area .sell-slider").owlCarousel({
+            ($(".sell-area .sell-slider")as any).owlCarousel({
                 autoPlay: false,
                 slideSpeed: 2000,
                 pagination: false,
@@ -117,7 +122,7 @@ export default function Run() {
             /*----------------------------
              features-home2-slider
             ------------------------------ */
-            $(".features-home2-slider").owlCarousel({
+            ($(".features-home2-slider")as any).owlCarousel({
                 autoPlay: false,
                 slideSpeed: 2000,
                 pagination: false,
@@ -132,7 +137,7 @@ export default function Run() {
             /*----------------------------
              sell-off-slider
             ------------------------------ */
-            $(".sell-off-slider").owlCarousel({
+            ($(".sell-off-slider")as any).owlCarousel({
                 autoPlay: false,
                 slideSpeed: 2000,
                 pagination: false,
@@ -147,7 +152,7 @@ export default function Run() {
             /*----------------------------
              product-page-slider
             ------------------------------ */
-            $(".product-page-slider").owlCarousel({
+            ($(".product-page-slider")as any).owlCarousel({
                 autoPlay: false,
                 slideSpeed: 2000,
                 pagination: false,
@@ -162,7 +167,7 @@ export default function Run() {
             /*----------------------------
             upsell-slider
             ------------------------------ */
-            $(".upsell-slider").owlCarousel({
+            ($(".upsell-slider")as any).owlCarousel({
                 autoPlay: false,
                 slideSpeed: 2000,
                 pagination: false,
@@ -177,7 +182,7 @@ export default function Run() {
             /*----------------------------
              related-slider
             ------------------------------ */
-            $(".related-slider").owlCarousel({
+            ($(".related-slider")as any).owlCarousel({
                 autoPlay: false,
                 slideSpeed: 2000,
                 pagination: false,
@@ -192,12 +197,12 @@ export default function Run() {
             /*----------------------------
              price-slider active
             ------------------------------ */
-            $("#slider-range").slider({
+            ($("#slider-range")as any).slider({
                 range: true,
                 min: 100,
                 max: 750,
                 values: [100, 700],
-                slide: function (event, ui) {
+                slide: function (event:any, ui:any) {
                     $("#amount").val("" + ui.values[0] + " -- " + ui.values[1]);
                 }
             });
@@ -222,18 +227,16 @@ export default function Run() {
             $(".cart-plus-minus").append('<div class="dec qtybutton"><</div><div class="inc qtybutton">></div>');
             $(".qtybutton").on("click", function () {
                 var $button = $(this);
-                var oldValue = $button.parent().find("input").val();
-                if ($button.text() == ">") {
-                    var newVal = parseFloat(oldValue) + 1;
-                } else {
-                    // Don't allow decrementing below zero
-                    if (oldValue > 0) {
-                        var newVal = parseFloat(oldValue) - 1;
+                var oldValueStr = $button.parent().find("input").val(); // Lấy giá trị là một chuỗi hoặc undefined
+                if (oldValueStr !== undefined) {
+                    var oldValue = parseFloat(oldValueStr); // Chuyển đổi thành số
+                    if (!isNaN(oldValue) && oldValue > 0) {
+                        var newVal = oldValue - 1;
                     } else {
                         newVal = 0;
                     }
+                    $button.parent().find("input").val(newVal);
                 }
-                $button.parent().find("input").val(newVal);
             });
 
             /*--------------------------
@@ -241,12 +244,14 @@ export default function Run() {
             ---------------------------- */
             //Check to see if the window is top if not then display button
             $(window).scroll(function () {
-                if ($(this).scrollTop() > 300) {
+                const $window = $(this);
+                if ($window?.scrollTop?.() ?? 0 > 300) { // Sử dụng toán tử nullish coalescing ??
                     $('#scrollUp').fadeIn();
                 } else {
                     $('#scrollUp').fadeOut();
                 }
             });
+            
 
             //Click event to scroll to top
             $('#scrollUp').click(function () {
@@ -257,8 +262,8 @@ export default function Run() {
             /*--------------------------
              tooltip
             ---------------------------- */
-            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+            // const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            // const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
         })(jQuery);
 

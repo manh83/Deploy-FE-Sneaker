@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Divider, Select, Table, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { Option } from 'antd/es/mentions';
@@ -10,7 +10,7 @@ import { IOrder } from '../Models/interfaces';
 import Loading from '../Component/Loading';
 
 const BillGuest = () => {
-    const { data, isLoading, error } = useGetAllOrdersQuery(undefined);
+    const { data, isLoading } = useGetAllOrdersQuery(undefined);
     const [updateOrder] = useUpdateOrderMutation();
 
     const [filterStatus, setFilterStatus] = useState('');
@@ -30,14 +30,14 @@ const BillGuest = () => {
         phone: order?.phone
     }));
 
-    const handleStatusChange = (value: string, orderId: string) => {
-        updateOrder({ _id: orderId, status: value }).unwrap().then(() => {
-            console.log("Trạng thái đã được cập nhật thành công.");
-            message.success("Trạng thái đã được cập nhật thành công.");
-        }).catch((error) => {
-            console.error("Lỗi khi cập nhật trạng thái:", error);
-        });
-    };
+    // const handleStatusChange = (value: string, orderId: string) => {
+    //     updateOrder({ _id: orderId, status: value }).unwrap().then(() => {
+    //         console.log("Trạng thái đã được cập nhật thành công.");
+    //         message.success("Trạng thái đã được cập nhật thành công.");
+    //     }).catch((error) => {
+    //         console.error("Lỗi khi cập nhật trạng thái:", error);
+    //     });
+    // };
 
     const handleNameOrCodeFilter = () => {
         const filterValue = deburr(filterNameOrCode.toLowerCase()); // Loại bỏ các dấu trong chuỗi
@@ -46,24 +46,21 @@ const BillGuest = () => {
         const validFormat = nineDigitsWithLeadingZeroRegex.test(filterValue) || threeLettersThreeDigitsRegex.test(filterValue);
 
         if (validFormat) {
-            // Định dạng đúng, tiếp tục xử lý
             if (filterValue === '') {
                 setdataNew('');
             } else {
-                if (filteredData?.length == 0) {
+                if (filteredData?.length === 0) {
                     setdataNew('');
                     message.error("Không tìm thấy đơn hàng")
                 } else {
                     message.success("Tìm thấy đơn hàng")
-                    setdataNew(filteredData)
-                };
-
-            };
+                    setdataNew(JSON.stringify(filteredData)); 
+                }
+            }
             setSearchCompleted(true);
         } else {
-            // Định dạng không đúng, hiển thị thông báo
             message.error("Giá trị không hợp lệ. Định dạng kiểu 0******** hoặc XXX*** hoặc xxx***.");
-        };
+        }
 
 
     };
@@ -88,7 +85,7 @@ const BillGuest = () => {
             title: 'Trạng thái',
             dataIndex: 'status',
             key: 'status',
-            render: (status: any, record: IOrder) => (
+            render: (status: any, _record: IOrder) => (
                 <p>{status === "0" ? "Đang chờ xác nhận" : status === "1" ? "Đã xác nhận" : 
                 status === "2" ? "Đã hủy" : status === "3" ? "Đang giao hàng" : status === "4" ? "Đã nhận hàng" : "Không xác định"
                 }</p>
@@ -106,7 +103,7 @@ const BillGuest = () => {
     // tìm kiếm đơn hàng theo mã đơn hàng, số điện thoại
     const handleStatusFilter = (value: string) => {
         setFilterStatus(value);
-        const filteredDataNew = dataSource?.filter((order: IOrder) => {
+        const filteredDataNew = dataSource?.filter((order) => {
             const matchStatus = !value || order.status === value;
             const matchNameOrCode =
                 !filterNameOrCode ||
@@ -116,10 +113,10 @@ const BillGuest = () => {
 
             return matchStatus && matchNameOrCode && matchUserId;
         });
-        setdataNew(filteredDataNew);
+        setdataNew(JSON.stringify(filteredDataNew));
     };
 
-    const filteredData = dataSource?.filter((order: IOrder) => {
+    const filteredData = dataSource?.filter((order) => {
         const matchStatus = !filterStatus || order.status === filterStatus;
         const matchNameOrCode =
             !filterNameOrCode ||
@@ -130,7 +127,7 @@ const BillGuest = () => {
         return matchStatus && matchNameOrCode && matchUserId;
     });
 
-    const handleNameOrCodeChange = (e) => {
+    const handleNameOrCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value;
         let formattedValue = inputValue;
 
@@ -178,7 +175,7 @@ const BillGuest = () => {
                 <div>
                     <Table
                         columns={columns}
-                        dataSource={dataNew}
+                        dataSource={JSON.parse(dataNew)}
                     />
                 </div>
             </div>}

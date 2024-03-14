@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { ICategory, IProduct } from "../Models/interfaces"
+import { ICategory } from "../Models/interfaces"
 import { pause } from "../utils/pause"
 
 const categoryApi = createApi({

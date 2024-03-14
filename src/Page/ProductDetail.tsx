@@ -4,18 +4,18 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import { FreeMode, Navigation, Thumbs, Pagination } from "swiper/modules";
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { useParams } from "react-router-dom";
 import {
   useGetOneProductQuery,
   useGetAllProductQuery,
 } from "../Services/Api_Product";
-import { PlusOutlined, MinusOutlined, CloseOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useAddToCartMutation, useGetCartQuery } from "../Services/Api_cart";
-import { ProductItem } from "../Models/interfaces";
+// import { ProductItem } from "../Models/interfaces";
 import { useGetAllSizeQuery } from "./../Services/Api_Size";
-import { Button, Modal, message } from "antd";
+import { Modal, message } from "antd";
 import Loading from "../Component/Loading";
 import {
   useCreateCommentMutation,
@@ -29,7 +29,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { FaTools } from "react-icons/fa";
 import parse from "html-react-parser";
 import { format } from "date-fns";
-import { AiOutlineMinus } from "react-icons/ai";
+// import { AiOutlineMinus } from "react-icons/ai";
 
 type Variant = {
   color_id: {
@@ -54,7 +54,7 @@ const ProductDetail = () => {
   const { data: productDataOne, isLoading: isLoadingProduct }: any =
     useGetOneProductQuery(id || "");
   const [addToCart] = useAddToCartMutation();
-  const { data: cartData, error } = useGetCartQuery();
+  const { data: cartData } = useGetCartQuery();
   const { data: getAllSize } = useGetAllSizeQuery();
   const [imageUrl, setImageUrl] = useState<any[]>([]);
   const [totalVariant, setTotalVariant]: any = useState(0); //sau khi chọn size lập tức hiện số lượng của biến thể đó
@@ -64,7 +64,7 @@ const ProductDetail = () => {
   const [originalPrice, setOriginalPrice] = useState<number | undefined>(
     undefined
   ); // lưu giá gốc
-  const [grossProduct, setGrossProduct] = useState("");
+  const [grossProduct, _setGrossProduct] = useState("");
   const [importPrice,setImportPrice] = useState<number | undefined>(undefined);
 
 
@@ -414,7 +414,7 @@ const ProductDetail = () => {
   const [content, setContent] = useState("");
   const [createComment] = useCreateCommentMutation();
   const [messagecm, setMessagecm] = useState("");
-  const [isLoadingcm, setIsLoadingcm]: any = useState(false);
+  const [isLoadingcm, _setIsLoadingcm]: any = useState(false);
   const { data: comments, refetch } = useGetCommentsByProductIdQuery(id);
   const [deleteCommentById] = useDeleteCommentByAdminMutation(); //delete của admin
 
@@ -436,7 +436,7 @@ const ProductDetail = () => {
       // Gửi yêu cầu tạo bình luận mà không cần kiểm tra đã mua hàng
       createComment({ userId: currentUser?._id, productId: id, content })
         .unwrap()
-        .then((response) => {
+        .then((_response) => {
           // Xử lý phản hồi thành công
           // console.log('Bình luận đã được tạo:', response);
           // Cập nhật danh sách bình luận hiển thị
@@ -471,7 +471,7 @@ const ProductDetail = () => {
             content,
           })
             .unwrap()
-            .then((response) => {
+            .then((_response) => {
               // Cập nhật danh sách bình luận hiển thị
               refetch();
             })

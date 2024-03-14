@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+
 import { useGetAllCategoryQuery, useGetProductsByCategoryQuery } from '../Services/Api_Category';
 import { ICategory, IProduct } from '../Models/interfaces';
 import { useParams } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const ProductsCategory = () => {
   const { id } = useParams();
-  const { data: ProductsCategoty, isLoading, isError } = useGetProductsByCategoryQuery(id);
+  const { data: ProductsCategoty } = useGetProductsByCategoryQuery(id);
     
   const {
     data: categoryData,

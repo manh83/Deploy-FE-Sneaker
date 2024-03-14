@@ -1,6 +1,6 @@
 import { ICategory, IColor, IProduct, ISize } from "../Models/interfaces";
 import { useGetAllProductQuery } from "../Services/Api_Product";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { useGetAllCategoryQuery } from "../Services/Api_Category";
 import { useGetColorsQuery } from "../Services/Api_Color";

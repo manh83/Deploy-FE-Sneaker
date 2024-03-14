@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import { useSiginMutation } from '../Services/Api_User';
-import { IUser } from '../Models/interfaces';
+// import { IUser } from '../Models/interfaces';
 import Loading from '../Component/Loading';
 import { Link, useNavigate } from 'react-router-dom';
 

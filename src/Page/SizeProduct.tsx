@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+
 import { IProduct, ISize } from '../Models/interfaces';
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import { useGetAllSizeQuery, useGetProductsBySizeQuery } from '../Services/Api_S
 const ProductsSize = () => {
   const { id } = useParams();
   
-  const { data: ProductsSize, isLoading, isError } = useGetProductsBySizeQuery(id);
+  const { data: ProductsSize } = useGetProductsBySizeQuery(id);
 
   const {
     data: sizeData,

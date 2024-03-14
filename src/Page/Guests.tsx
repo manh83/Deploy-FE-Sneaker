@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Table,Image } from 'antd';
 
 const Guests = () => {
     const [idPr, setIdPr]: any = useState([]);
     const [idPrMany, setIdPrMany]: any = useState([]);
-    const [dataGuests, setDataGuests]: any = useState();//OK
-    const getDataLocal: any = localStorage.getItem("orderGuests") ? JSON.parse(localStorage.getItem("orderGuests")) : [];
+    const rawData: string | null = localStorage.getItem("orderGuests");
+    const getDataLocal: any = rawData ? JSON.parse(rawData) : [];
+    
+    const [dataGuests, setDataGuests]: [any, React.Dispatch<React.SetStateAction<any>>] = useState(); // Kiểu dữ liệu của useState phải được gán rõ ràng
 
     useEffect(() => {
         let arrayId: any = [];

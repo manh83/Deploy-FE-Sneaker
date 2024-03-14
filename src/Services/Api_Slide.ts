@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ISlider } from "../Models/interfaces";
-import { pause } from "../utils/pause";
+
 
 const slideApi = createApi({
   reducerPath: "slide",

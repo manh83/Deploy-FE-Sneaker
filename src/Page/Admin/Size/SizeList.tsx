@@ -35,11 +35,12 @@ const SizeList = () => {
         );
       })
       .catch((error) => {
+        console.error('Đã xảy ra lỗi khi xóa size:', error);
         messageApi.error('Đã xảy ra lỗi khi xóa size');
       });
   };
 
-  const handleSelectionChange = (selectedRowKeys: React.Key[], selectedRows: ISize[]) => {
+  const handleSelectionChange = (_selectedRowKeys: React.Key[], selectedRows: ISize[]) => {
     setSelectedSizes(selectedRows);
   };
 

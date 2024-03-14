@@ -33,7 +33,7 @@ const Blog = () => {
                                         </div>
                                         <div className="blog-area">
 
-                                            {blogData?.data?.map((item: IBlog) => {
+                                            {blogData?.map((item: IBlog) => {
                                                 return (
                                                     <div className="single-blog-post-page relative h-[330px]">
                                                         <div className="blog-img">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent } from 'react'
+import { useEffect, useState, ChangeEvent } from 'react'
 import UserMenu from '../Component/UserMenu'
 import '../../css/user.css'
 import { useParams } from 'react-router-dom';
@@ -12,7 +12,7 @@ import Loading from '../Component/Loading';
 const User = () => {
   const { id } = useParams<{ id: string }>();
   console.log(id);
-  const { data, isLoading, error }: any = useGetOneUserQuery(id!);
+  const { data, isLoading }: any = useGetOneUserQuery(id!);
   const [updateUser] = useUpdateUserMutation();
 
   const [username, setName] = useState('');

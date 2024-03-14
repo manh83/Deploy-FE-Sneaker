@@ -12,14 +12,14 @@ import {
   ContainerOutlined,
   PicCenterOutlined,
   CalendarOutlined,
-  MailOutlined,
+  // MailOutlined,
   MenuOutlined,
-  DollarOutlined,
-  FundViewOutlined,
-  ReconciliationOutlined
+  // DollarOutlined,
+  // FundViewOutlined,
+  // ReconciliationOutlined
 } from "@ant-design/icons"
 import type { MenuProps } from "antd"
-import { Breadcrumb, Layout, Menu, Modal, message, theme } from "antd"
+import { Layout, Menu, Modal, message, theme } from "antd"
 import { Outlet, Link, useNavigate } from "react-router-dom"
 import { FaAngleDown } from "react-icons/fa"
 import { IoMdLogOut } from "react-icons/io"
@@ -28,7 +28,7 @@ import { MdInsertEmoticon } from "react-icons/md";
 import { AiOutlineThunderbolt } from "react-icons/ai";
 
 
-const { Header, Content, Footer, Sider } = Layout
+const { Header, Content, Sider } = Layout
 
 type MenuItem = Required<MenuProps>["items"][number]
 
@@ -90,8 +90,8 @@ const items: MenuItem[] = [
 
 const Layout_Admin: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [selectedKeys, setSelectedKeys] = useState<string[]>(["0"]);
-  const [openKeys, setOpenKeys] = useState<string[]>([]); // Thêm state để lưu trạng thái mở/rút mục con
+  const [_selectedKeys, setSelectedKeys] = useState<string[]>(["0"]);
+  const [_openKeys, setOpenKeys] = useState<string[]>([]); // Thêm state để lưu trạng thái mở/rút mục con
   const navigate = useNavigate();
 
   const {
@@ -132,10 +132,10 @@ const Layout_Admin: React.FC = () => {
   };
   
 
-  const handleOpenChange = (keys: string[]) => {
-    setOpenKeys(keys);
-    localStorage.setItem("openKeys", JSON.stringify(keys));
-  };
+  // const handleOpenChange = (keys: string[]) => {
+  //   setOpenKeys(keys);
+  //   localStorage.setItem("openKeys", JSON.stringify(keys));
+  // };
   
 
   // logout

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Highcharts from "highcharts";
 import { useGetAllOrdersQuery } from "../../../Services/Api_Order";
-import Loading from "../../../Component/Loading";
 import { message } from "antd";
 import LoadingAdmin from "../../../Component/LoadingAdmin";
 

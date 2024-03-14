@@ -9,10 +9,10 @@ import {
   useGetDiscountsQuery,
   useUpdateDiscountMutation,
 } from "../Services/Api_Discount"
-import { IDiscount, IUser } from "../Models/interfaces"
+import { IDiscount } from "../Models/interfaces"
 import { useGetAllUserQuery, useUpdateUserMutation } from "../Services/Api_User"
 import moment from "moment"
-import { Modal, Table, Button } from "antd"
+import { Modal, Table } from "antd"
 import Loading from "../Component/Loading"
 
 const Checkout = () => {
@@ -24,8 +24,8 @@ const Checkout = () => {
   const [isVisible, setIsVisible] = useState(false)
   const location = useLocation()
   const { selectedProducts } = location.state || {}
-  const [addOrder, { error }]:any = useAddOrderMutation()
-  const [messageApi, contexHolder]:any = message.useMessage()
+  const [addOrder]:any = useAddOrderMutation()
+  const [_messageApi, contexHolder]:any = message.useMessage()
   const [nameError, setNameError]:any = useState("")
   const [phoneError, setPhoneError]:any = useState("")
   const [cityError, setCityError]:any = useState("")
@@ -41,7 +41,7 @@ const Checkout = () => {
 
 
   const [createPayment] = useCreatePaymentMutation()
-  const [localCart, setLocalCart] = useState<any[]>(
+  const [localCart, _setLocalCart] = useState<any[]>(
     JSON.parse(localStorage.getItem("cart") || "[]")
   )
 

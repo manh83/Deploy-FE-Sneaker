@@ -51,9 +51,11 @@ export interface IColor {
   unicode: string
 }
 
+
+
 export interface ISize {
-  _id?: number | string
-  name: string
+  _id?: string | number ;
+  name: string;
 }
 
 export interface ProductItem {

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
+
+import { Button, Form, Input } from 'antd';
 import { useSiginMutation } from '../../Services/Api_User';
 import { IUser } from '../../Models/interfaces';
 import { useNavigate } from 'react-router';
@@ -9,19 +9,24 @@ const AdminLogin = () => {
   const [login] = useSiginMutation()
   const navigate = useNavigate()
 
-  const onFinish = async(values: IUser) => {
+  const onFinish = async (values: IUser) => {
     try {
-     const response =  await login(values)
-      if(response.data.user.role === "admin"){
-        navigate("/admin/dashboard")
-      }else{
-        alert("Bạn không có quyền đăng nhập")
+      const response = await login(values);
+      if ('data' in response) { // Kiểm tra xem response có thuộc tính 'data' không
+        const user = response.data && 'user' in response.data ? response.data.user : null;
+        if (typeof user === 'object' && user !== null && 'role' in user && user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          alert("Bạn không có quyền đăng nhập");
+        }
+      } else {
+        console.log("Lỗi khi đăng nhập", response.error);
       }
-      
     } catch (error) {
-     console.log("Lỗi khi đăng nhập",error);
+      console.log("Lỗi khi đăng nhập", error);
     }
   };
+  
   
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);

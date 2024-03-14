@@ -1,10 +1,9 @@
-import React, { useState, useEffect, ChangeEvent, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
 import moment from 'moment';
 import { useStatisticsByDayMutation } from '../../../Services/Api_Statistic';
 import Highcharts from 'highcharts';
 import { message } from 'antd';
 import HighchartsReact from 'highcharts-react-official';
-import Loading from "../../../Component/Loading";
 import LoadingAdmin from '../../../Component/LoadingAdmin';
 interface HighchartsChartProps {
   chartData: {
@@ -13,6 +12,13 @@ interface HighchartsChartProps {
   };
 }
 
+
+interface ChartData {
+  categories: string[];
+  series: { name: string; type: string; data: number[]; colorByPoint: boolean; }[];
+}
+
+
 const RevenueStatistics = () => {
   const searchButtonRef = useRef<HTMLButtonElement | null>(null); //setup để khi vào trang sẽ tự động submit 1 lần
   const [totalQuantitySold, setTotalQuantitySold] = useState(0);
@@ -20,12 +26,10 @@ const RevenueStatistics = () => {
   const [statisticsByDay, {isLoading}] = useStatisticsByDayMutation();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [loading , setLoading] = useState(false);
-  const [autoFetch7Days, setAutoFetch7Days] = useState(true);
-  const [chartData, setChartData] = useState({
-    categories: [],
-    series: [],
-  });
+  const [_loading , setLoading] = useState(false);
+  const [autoFetch7Days, _setAutoFetch7Days] = useState(true);
+  const [chartData, setChartData] = useState<ChartData>({categories: [],series: [],});
+
 
   useEffect(() => {
     // setup 5ms sẽ tự động bấm submit khi mới vào trang
@@ -88,7 +92,10 @@ const RevenueStatistics = () => {
           borderWidth: 0,
         },
       },
-      series: chartData.series,
+      series: chartData.series.map(series => ({
+        ...series,
+        type: 'column'
+      })),
     };
 
     return (
@@ -115,7 +122,6 @@ const RevenueStatistics = () => {
       if (moment(formattedEndDay).isBefore(formattedStartDay)) {
         message.error('Không xác định được ngày');
         setChartData({ categories: [], series: [] });
-        setTableData([]);
         setLoading(false);
         return;
       }
@@ -134,7 +140,7 @@ const RevenueStatistics = () => {
 
 const handleResponse = (response: any) => {
   if (response.data && response.data.success) {
-    const { totalQuantity, orders } = response.data.statistics;
+    const { orders } = response.data.statistics;
   
     const dailyTotalSales: { [key: string]: number } = {}; // tổng doanh số
     const matchingOrders: any[] = []; // Tạo một mảng mới để lưu trữ các đơn hàng đã nhận hàng
@@ -154,14 +160,21 @@ const handleResponse = (response: any) => {
       matchingOrders.push(...matchingOrdersForDate); // Thêm các đơn hàng đã nhận hàng vào mảng matchingOrders
   
       // Tính tổng doanh số của các đơn hàng đã nhận hàng
-      const totalSalesReceived = matchingOrdersForDate.reduce((total:number, order) => total + order.totalPrice, 0);
+      const totalSalesReceived = matchingOrdersForDate.reduce((total:number, order:any) => total + order.totalPrice, 0);
   
       // Gán giá trị vào dailyTotalSales
       dailyTotalSales[orderDate] = totalSalesReceived;
     });
   
     const categories: string[] = Object.keys(dailyTotalSales);
-    const series = [{ name: 'Doanh số', data: Object.values(dailyTotalSales),colorByPoint: true }];
+    const series = [
+          { 
+            name: 'Doanh số', 
+            type: 'column', // or any other appropriate type
+            data: Object.values(dailyTotalSales), 
+            colorByPoint: true 
+          }
+    ];
   
     setChartData({ categories, series });
     setTotalQuantitySold(matchingOrders.length);

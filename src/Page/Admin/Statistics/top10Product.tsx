@@ -4,16 +4,15 @@ import HighchartsReact from 'highcharts-react-official';
 import moment from 'moment';
 import {message} from "antd"
 import { useStatisticsByDayMutation } from '../../../Services/Api_Statistic';
-import Loading from '../../../Component/Loading';
 import LoadingAdmin from '../../../Component/LoadingAdmin';
 
 const Top10Product = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState<{ name: any; y: any; }[]>([]);
   const [statisticsByDay, {isLoading}] = useStatisticsByDayMutation()
-  const [totalQuantitySold,setTotalQuantitySold] = useState(0)
-  const [loading, setLoading] = useState(false);
+  const [_totalQuantitySold,setTotalQuantitySold] = useState(0)
+  const [_loading, setLoading] = useState(false);
 
 
   const fetchInitialData = () => {
@@ -71,7 +70,7 @@ const Top10Product = () => {
 
   const handleResponse = (response:any) => {
     if (response.data && response.data.success) {
-      const { totalQuantity, orders } = response.data.statistics;
+      const { orders } = response.data.statistics;
       
       if(Array.isArray(orders) && orders.length>0){
         // Tính tổng số lượng của từng sản phẩm dựa trên productId

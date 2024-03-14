@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, {useState } from 'react';
 import { useLocation,Link } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
 import { ICategory, IColor, IProduct, ISize } from '../Models/interfaces';
@@ -9,9 +9,9 @@ import { useGetColorsQuery } from '../Services/Api_Color';
 const SearchResultsPage = () => {
   const location = useLocation();
   const searchData = location.state;
-  const { data: categoryData, error: errorCategory } = useGetAllCategoryQuery();
-  const { data: sizeData, error: errorSize } = useGetAllSizeQuery();
-  const { data: colorData, error: errorColor } = useGetColorsQuery();
+  const { data: categoryData } = useGetAllCategoryQuery();
+  const { data: sizeData } = useGetAllSizeQuery();
+  const { data: colorData } = useGetColorsQuery();
   console.log(searchData);
   
 
